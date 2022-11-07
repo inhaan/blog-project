@@ -23,6 +23,14 @@ app.get("/api/postList", (req, res) => {
     res.send(store.getAll());
 });
 
+app.get("/api/post/:id", (req, res) => {
+    if (!req.params.id) {
+        res.sendStatus(400);
+        return;
+    }
+    res.send(store.get(+req.params.id));
+});
+
 app.listen(port, () => {
     console.log(`listening on ${port} ...`);
 });

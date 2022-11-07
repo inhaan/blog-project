@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     posts.forEach((post) => {
         const itemEl = document.createElement("li");
-        itemEl.innerHTML = `<div>${post.title}</div><div>${post.date}</div>`;
+        itemEl.innerHTML = `<div><a href="/viewPost.html?id=${post.id}"> ${post.title}</a></div><div>${post.date}</div>`;
         postContainerEl.append(itemEl);
     });
 });

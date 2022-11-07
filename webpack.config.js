@@ -7,6 +7,7 @@ module.exports = {
     entry: {
         index: "./src/client/index/index.ts",
         writePost: "./src/client/writePost/writePost.ts",
+        viewPost: "./src/client/viewPost/viewPost.ts",
     },
     output: {
         filename: "[name].[contenthash].js",
@@ -32,6 +33,11 @@ module.exports = {
             filename: "index.html",
             template: "./src/client/index/index.html",
             chunks: ["index"],
+        }),
+        new HtmlWebpackPlugin({
+            filename: "viewPost.html",
+            template: "./src/client/viewPost/viewPost.html",
+            chunks: ["viewPost"],
         }),
     ],
 };
