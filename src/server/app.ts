@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { createIndex } from "./pageResolver";
-import { Post } from "./Post";
+import { getPost, Post } from "./Post";
 
 const port = 3000;
 
@@ -17,9 +17,27 @@ app.post("/api/post", (req, res) => {
     }
 
     const post = new Post(title, contentMD, contentHTML);
-    post.saveJSON();
+    post.saveData();
     post.saveHTML();
+    createIndex();
 
+    res.sendStatus(200);
+});
+
+app.delete("/api/post/:menu/:dateKey/:id", (req, res) => {
+    const { menu, dateKey, id } = req.params;
+    if (!menu || !dateKey || !id) {
+        res.sendStatus(400);
+        return;
+    }
+
+    const post = getPost(menu, dateKey, id);
+    if (!post) {
+        res.sendStatus(400);
+        return;
+    }
+
+    post.delete();
     createIndex();
 
     res.sendStatus(200);

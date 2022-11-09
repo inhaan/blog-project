@@ -1,19 +1,25 @@
-interface Post {
-    id: number;
-    title: string;
-    date: Date;
-    content: string;
-}
-
 document.addEventListener("DOMContentLoaded", async () => {
-    const response = await fetch("/api/postList");
-    const posts: Post[] = await response.json();
+    document.getElementById("container")?.parentElement;
 
-    const postContainerEl = document.getElementById("postContainer") as HTMLElement;
+    document.getElementById("container")?.addEventListener("click", async (event) => {
+        const action = (event.target as any).dataset?.action;
+        if (!action) {
+            return;
+        }
 
-    posts.forEach((post) => {
-        const itemEl = document.createElement("li");
-        itemEl.innerHTML = `<div><a href="/viewPost.html?id=${post.id}"> ${post.title}</a></div><div>${post.date}</div>`;
-        postContainerEl.append(itemEl);
+        const menu = (event.target as any).parentElement.dataset.postmenu;
+        const dateKey = (event.target as any).parentElement.dataset.postdatekey;
+        const id = (event.target as any).parentElement.dataset.postid;
+
+        switch (action) {
+            case "delete":
+                await fetch(`/api/post/${menu}/${dateKey}/${id}`, {
+                    method: "DELETE",
+                });
+                window.location.reload();
+                break;
+            case "edit":
+                break;
+        }
     });
 });

@@ -8,14 +8,18 @@
     </head>
     <body>
         <h1>inhan blog</h1>
-        <a href="/writePost.html">포스트 작성</a>
+        <a href="/writePost.html">Write post</a>
         <ul id="container">
             {{#posts}}
-            <li>
+            <li style="display:flex; gap:10px; margin:5px 0;">
                 <div>
                     <a href="{{devUrl}}">{{title}}</a>
                 </div>
-                <div>{{date}}</div>
+                <div>{{dateString}}</div>
+                <div data-postmenu="{{menu}}" data-postdatekey="{{dateKey}}" data-postid="{{id}}">
+                    <button data-action="delete">Delete</button>
+                    <button data-action="edit">Edit</button>
+                </div>
             </li>
             {{/posts}}
         </ul>

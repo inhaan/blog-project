@@ -1,11 +1,11 @@
 import fs from "fs-extra";
-import glob from "glob";
 import mustache from "mustache";
 import path from "path";
-import { Post } from "./Post";
+import webpack from "webpack";
+import { getPostAll, Post } from "./Post";
 
 export function createIndex(outPath?: string, isDev: boolean = true) {
-    outPath = outPath ?? path.join(__dirname, "wwwroot");
+    outPath = outPath ?? path.join(__dirname, "../.build/templates");
     const posts = getAllPost();
     const postFix = isDev ? ".dev" : "";
     const template = fs.readFileSync(
@@ -14,6 +14,8 @@ export function createIndex(outPath?: string, isDev: boolean = true) {
     );
     const indexHTML = mustache.render(template, { posts });
     fs.outputFileSync(path.join(outPath, "index.html"), indexHTML);
+
+    // TODO 웹팩 실행해야 함
 }
 
 export function createPosts(outPath?: string) {
@@ -26,10 +28,7 @@ export function createPosts(outPath?: string) {
 let _posts: Post[] | undefined;
 function getAllPost() {
     if (!_posts) {
-        _posts = glob
-            .sync("posts/**/*.json", {
-                cwd: path.join(__dirname, ".."),
-            })
+        _posts = getPostAll()
             .map((filePath) => {
                 const { title, contentMD, contentHTML, date, id } = fs.readJSONSync(filePath);
                 return new Post(title, contentMD, contentHTML, date, id);

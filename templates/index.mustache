@@ -10,11 +10,11 @@
         <h1>inhan blog</h1>
         <ul id="container">
             {{#posts}}
-            <li>
+            <li style="display:flex; gap:10px; margin:5px 0;">
                 <div>
                     <a href="{{url}}">{{title}}</a>
                 </div>
-                <div>{{date}}</div>
+                <div>{{dateString}}</div>
             </li>
             {{/posts}}
         </ul>
