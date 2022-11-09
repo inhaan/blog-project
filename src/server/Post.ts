@@ -29,12 +29,16 @@ export class Post {
         return `${this.menu}/${yy}${MM}`;
     }
 
-    private getFileName(ext: string): string {
-        return `${this.id}${ext}`;
+    private getFileName(ext?: string): string {
+        return `${this.id}${ext ?? ""}`;
     }
 
     get url(): string {
-        return `/${this.getFileDir()}/${this.getFileName(".html")}`;
+        return `${this.getFileDir()}/${this.getFileName()}`;
+    }
+
+    get devUrl(): string {
+        return `${this.getFileDir()}/${this.getFileName(".html")}`;
     }
 
     saveJSON(): void {
@@ -44,14 +48,15 @@ export class Post {
         );
     }
 
-    saveHTML(): void {
+    saveHTML(outPath?: string): void {
+        outPath = outPath ?? path.join(__dirname, "wwwroot");
         const template = fs.readFileSync(
             path.join(__dirname, "../templates/viewPost.mustache"),
             "utf-8"
         );
         const viewHTML = mustache.render(template, this);
         fs.outputFileSync(
-            path.join(__dirname, "wwwroot", this.getFileDir(), this.getFileName(".html")),
+            path.join(outPath, this.getFileDir(), this.getFileName(".html")),
             viewHTML
         );
     }

@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild": "node scripts/prebuild.js",
     "build:server": "tsc -p ./src/server/tsconfig.json",
     "build:client": "webpack",
-    "build": "npm run build:server && npm run build:client",
+    "build:docs": "node scripts/build-docs.js",
+    "build:dev": "node scripts/build-dev.js",
+    "build": "npm run build:server && npm run build:client && npm run build:dev && npm run build:docs",
     "start": "node dist/app.js"
   },
   "repository": {
