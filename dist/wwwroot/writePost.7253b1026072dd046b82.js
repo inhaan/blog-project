@@ -18,7 +18,7 @@ document.getElementById("btnSave")?.addEventListener("click", async () => {
         return;
     }
     if (!contentMD || !contentHTML) {
-        alert("내용을 입려해 주세요");
+        alert("내용을 입력해 주세요");
         return;
     }
     await fetch("/api/post", {
@@ -29,8 +29,9 @@ document.getElementById("btnSave")?.addEventListener("click", async () => {
         body: JSON.stringify({ title, contentMD, contentHTML }),
     });
     alert("저장했습니다");
+    window.location.href = "/";
 });
 
 /******/ })()
 ;
-//# sourceMappingURL=writePost.64692cc53bf4d7532c39.js.map
+//# sourceMappingURL=writePost.7253b1026072dd046b82.js.map

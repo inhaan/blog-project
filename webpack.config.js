@@ -5,9 +5,9 @@ module.exports = {
     mode: "development",
     devtool: "source-map",
     entry: {
-        index: "./src/client/index/index.ts",
+        // index: "./src/client/index/index.ts",
         writePost: "./src/client/writePost/writePost.ts",
-        viewPost: "./src/client/viewPost/viewPost.ts",
+        // viewPost: "./src/client/viewPost/viewPost.ts",
     },
     output: {
         filename: "[name].[contenthash].js",
@@ -29,15 +29,15 @@ module.exports = {
             template: "./src/client/writePost/writePost.html",
             chunks: ["writePost"],
         }),
-        new HtmlWebpackPlugin({
-            filename: "index.html",
-            template: "./src/client/index/index.html",
-            chunks: ["index"],
-        }),
-        new HtmlWebpackPlugin({
-            filename: "viewPost.html",
-            template: "./src/client/viewPost/viewPost.html",
-            chunks: ["viewPost"],
-        }),
+        // new HtmlWebpackPlugin({
+        //     filename: "index.html",
+        //     template: "./src/client/index/index.html",
+        //     chunks: ["index"],
+        // }),
+        // new HtmlWebpackPlugin({
+        //     filename: "viewPost.html",
+        //     template: "./src/client/viewPost/viewPost.html",
+        //     chunks: ["viewPost"],
+        // }),
     ],
 };

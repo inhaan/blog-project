@@ -6,6 +6,7 @@ import { slugify } from "./slugify";
 export class Post {
     id: string;
     date: Date;
+    menu = "etc";
 
     constructor(
         public title: string,
@@ -23,14 +24,17 @@ export class Post {
     }
 
     private getFileDir(): string {
-        const menu = "etc";
         const yy = new Date().getFullYear().toString().slice(2, 4);
         const MM = (new Date().getMonth() + 1).toString().padStart(2, "0");
-        return path.join(menu, `${yy}${MM}`);
+        return `${this.menu}/${yy}${MM}`;
     }
 
     private getFileName(ext: string): string {
         return `${this.id}${ext}`;
+    }
+
+    get url(): string {
+        return `/${this.getFileDir()}/${this.getFileName(".html")}`;
     }
 
     saveJSON(): void {

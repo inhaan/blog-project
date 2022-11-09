@@ -13,7 +13,7 @@ document.getElementById("btnSave")?.addEventListener("click", async () => {
         return;
     }
     if (!contentMD || !contentHTML) {
-        alert("내용을 입려해 주세요");
+        alert("내용을 입력해 주세요");
         return;
     }
 
@@ -26,4 +26,5 @@ document.getElementById("btnSave")?.addEventListener("click", async () => {
     });
 
     alert("저장했습니다");
+    window.location.href = "/";
 });

@@ -14,6 +14,7 @@ class Post {
     contentHTML;
     id;
     date;
+    menu = "etc";
     constructor(title, contentMD, contentHTML, date = new Date(), id) {
         this.title = title;
         this.contentMD = contentMD;
@@ -25,13 +26,15 @@ class Post {
         this.date = date;
     }
     getFileDir() {
-        const menu = "etc";
         const yy = new Date().getFullYear().toString().slice(2, 4);
         const MM = (new Date().getMonth() + 1).toString().padStart(2, "0");
-        return path_1.default.join(menu, `${yy}${MM}`);
+        return `${this.menu}/${yy}${MM}`;
     }
     getFileName(ext) {
         return `${this.id}${ext}`;
+    }
+    get url() {
+        return `/${this.getFileDir()}/${this.getFileName(".html")}`;
     }
     saveJSON() {
         fs_extra_1.default.outputJSONSync(path_1.default.join(__dirname, "../posts", this.getFileDir(), this.getFileName(".json")), this);
