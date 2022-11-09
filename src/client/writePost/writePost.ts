@@ -1,30 +1,32 @@
-const editor = new toastui.Editor({
-    el: document.querySelector("#editor"),
-    previewStyle: "vertical",
-});
-
-document.getElementById("btnSave")?.addEventListener("click", async () => {
-    const title = (document.querySelector("input[name='title']") as HTMLInputElement).value;
-    const contentMD = editor.getMarkdown();
-    const contentHTML = editor.getHTML();
-
-    if (!title) {
-        alert("제목을 입력해 주세요");
-        return;
-    }
-    if (!contentMD || !contentHTML) {
-        alert("내용을 입력해 주세요");
-        return;
-    }
-
-    await fetch("/api/post", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, contentMD, contentHTML }),
+{
+    const editor = new toastui.Editor({
+        el: document.querySelector("#editor"),
+        previewStyle: "vertical",
     });
 
-    alert("저장했습니다");
-    window.location.href = "/";
-});
+    document.getElementById("btnSave")?.addEventListener("click", async () => {
+        const title = (document.querySelector("input[name='title']") as HTMLInputElement).value;
+        const contentMD = editor.getMarkdown();
+        const contentHTML = editor.getHTML();
+
+        if (!title) {
+            alert("제목을 입력해 주세요");
+            return;
+        }
+        if (!contentMD || !contentHTML) {
+            alert("내용을 입력해 주세요");
+            return;
+        }
+
+        await fetch("/api/post", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, contentMD, contentHTML }),
+        });
+
+        alert("저장했습니다");
+        window.location.href = "/";
+    });
+}

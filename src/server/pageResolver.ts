@@ -4,8 +4,7 @@ import path from "path";
 import webpack from "webpack";
 import { getPostAll, Post } from "./Post";
 
-export function createIndex(outPath?: string, isDev: boolean = true) {
-    outPath = outPath ?? path.join(__dirname, "../.build/templates");
+export async function createIndex(isDev: boolean = true) {
     const posts = getAllPost();
     const postFix = isDev ? ".dev" : "";
     const template = fs.readFileSync(
@@ -13,9 +12,9 @@ export function createIndex(outPath?: string, isDev: boolean = true) {
         "utf-8"
     );
     const indexHTML = mustache.render(template, { posts });
-    fs.outputFileSync(path.join(outPath, "index.html"), indexHTML);
+    fs.outputFileSync(path.join(__dirname, "../.build/templates/index.html"), indexHTML);
 
-    // TODO 웹팩 실행해야 함
+    await runWebpack(isDev);
 }
 
 export function createPosts(outPath?: string) {
@@ -25,17 +24,27 @@ export function createPosts(outPath?: string) {
     });
 }
 
-let _posts: Post[] | undefined;
 function getAllPost() {
-    if (!_posts) {
-        _posts = getPostAll()
-            .map((filePath) => {
-                const { title, contentMD, contentHTML, date, id } = fs.readJSONSync(filePath);
-                return new Post(title, contentMD, contentHTML, date, id);
-            })
-            .sort((a, b) => {
-                return b.date.getTime() - a.date.getTime();
-            });
-    }
-    return _posts;
+    return getPostAll()
+        .map((filePath) => {
+            const { title, contentMD, contentHTML, date, id } = fs.readJSONSync(filePath);
+            return new Post(title, contentMD, contentHTML, date, id);
+        })
+        .sort((a, b) => {
+            return b.date.getTime() - a.date.getTime();
+        });
+}
+
+function runWebpack(isDev: boolean) {
+    return new Promise<void>((resolve, reject) => {
+        const postFix = isDev ? ".dev" : "";
+        const webpackConfig = require(`../webpack.config${postFix}.js`);
+        webpack(webpackConfig, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
 }

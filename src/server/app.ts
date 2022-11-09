@@ -9,7 +9,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, "wwwroot")));
 app.use(express.json());
 
-app.post("/api/post", (req, res) => {
+app.post("/api/post", async (req, res) => {
     const { title, contentMD, contentHTML } = req.body ?? {};
     if (!title || !contentMD || !contentHTML) {
         res.sendStatus(400);
@@ -19,12 +19,33 @@ app.post("/api/post", (req, res) => {
     const post = new Post(title, contentMD, contentHTML);
     post.saveData();
     post.saveHTML();
-    createIndex();
+    await createIndex();
 
     res.sendStatus(200);
 });
 
-app.delete("/api/post/:menu/:dateKey/:id", (req, res) => {
+app.put("/api/post", async (req, res) => {
+    const { title, contentMD, contentHTML, menu, dateKey, id } = req.body ?? {};
+    if (!title || !contentMD || !contentHTML || !menu || !dateKey || !id) {
+        res.sendStatus(400);
+        return;
+    }
+    const prePost = getPost(menu, dateKey, id);
+    if (!prePost) {
+        res.sendStatus(400);
+        return;
+    }
+    prePost.delete();
+
+    const post = new Post(title, contentMD, contentHTML, prePost.date);
+    post.saveData();
+    post.saveHTML();
+    await createIndex();
+
+    res.sendStatus(200);
+});
+
+app.delete("/api/post/:menu/:dateKey/:id", async (req, res) => {
     const { menu, dateKey, id } = req.params;
     if (!menu || !dateKey || !id) {
         res.sendStatus(400);
@@ -38,9 +59,25 @@ app.delete("/api/post/:menu/:dateKey/:id", (req, res) => {
     }
 
     post.delete();
-    createIndex();
+    await createIndex();
 
     res.sendStatus(200);
+});
+
+app.get("/api/post/:menu/:dateKey/:id", (req, res) => {
+    const { menu, dateKey, id } = req.params;
+    if (!menu || !dateKey || !id) {
+        res.sendStatus(400);
+        return;
+    }
+
+    const post = getPost(menu, dateKey, id);
+    if (!post) {
+        res.sendStatus(400);
+        return;
+    }
+
+    res.send(Object.assign({ dateString: post.dateString }, post));
 });
 
 app.listen(port, () => {

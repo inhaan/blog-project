@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    document.getElementById("container")?.parentElement;
+    const loadingEl = document.getElementById("loading") as HTMLElement;
 
     document.getElementById("container")?.addEventListener("click", async (event) => {
         const action = (event.target as any).dataset?.action;
@@ -13,12 +13,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         switch (action) {
             case "delete":
-                await fetch(`/api/post/${menu}/${dateKey}/${id}`, {
-                    method: "DELETE",
-                });
-                window.location.reload();
+                if (confirm("삭제하시겠습니까?")) {
+                    loadingEl.classList.add("show");
+                    await fetch(`/api/post/${menu}/${dateKey}/${id}`, {
+                        method: "DELETE",
+                    });
+                    window.location.reload();
+                }
                 break;
             case "edit":
+                window.location.href = `/editPost.html?menu=${menu}&dateKey=${dateKey}&id=${id}`;
                 break;
         }
     });

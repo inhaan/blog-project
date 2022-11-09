@@ -9,7 +9,7 @@
     "build:client": "webpack",
     "build:docs": "node scripts/build-docs.js",
     "build:dev": "node scripts/build-dev.js",
-    "build": "npm run build:server && npm run build:client && npm run build:dev && npm run build:docs",
+    "build": "npm run build:server && npm run build:dev && npm run build:docs",
     "start": "node dist/app.js"
   },
   "repository": {

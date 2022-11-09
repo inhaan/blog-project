@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>inhan blog</title>
+        <link
+            rel="stylesheet"
+            href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+        />
+        <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
         <style>
             #loading {
                 position: fixed;
@@ -79,22 +84,17 @@
         </style>
     </head>
     <body>
-        <h1>inhan blog</h1>
-        <a href="/writePost.html">Write post</a>
-        <ul id="container">
-            {{#posts}}
-            <li style="display:flex; gap:10px; margin:5px 0;">
-                <div>
-                    <a href="{{devUrl}}">{{title}}</a>
-                </div>
-                <div>{{dateString}}</div>
-                <div data-postmenu="{{menu}}" data-postdatekey="{{dateKey}}" data-postid="{{id}}">
-                    <button data-action="delete">Delete</button>
-                    <button data-action="edit">Edit</button>
-                </div>
-            </li>
-            {{/posts}}
-        </ul>
+        <h1>포스트 수정</h1>
+        <label for="title">제목</label>
+        <input id="title" type="text" name="title" />
+
+        <label for="date">일자</label>
+        <div id="date"></div>
+
+        <label for="content">내용</label>
+        <div id="editor"></div>
+
+        <button id="btnSave">저장</button>
 
         <div id="loading">
             <div class="lds-ellipsis">
