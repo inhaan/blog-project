@@ -36,6 +36,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
     "@types/mustache": "^4.2.1",
+    "before-build-webpack": "^0.2.13",
     "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.4.1",
     "typescript": "^4.8.4",

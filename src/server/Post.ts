@@ -20,7 +20,7 @@ export function getPost(menu: string, dateKey: string, id: string): Post | null 
     );
 }
 
-export function getPostAll() {
+export function getAllPostFilePath() {
     return glob.sync("posts/**/*.json", {
         cwd: path.join(__dirname, ".."),
     });

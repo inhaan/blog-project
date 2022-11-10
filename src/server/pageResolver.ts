@@ -2,13 +2,13 @@ import fs from "fs-extra";
 import mustache from "mustache";
 import path from "path";
 import webpack from "webpack";
-import { getPostAll, Post } from "./Post";
+import { getAllPostFilePath, Post } from "./Post";
 
 export async function createIndex(isDev: boolean = true) {
     const posts = getAllPost();
-    const postFix = isDev ? ".dev" : "";
+    const postFix = isDev ? "dev/" : "prod/";
     const template = fs.readFileSync(
-        path.join(__dirname, `../templates/index${postFix}.mustache`),
+        path.join(__dirname, `../templates/${postFix}index.mustache`),
         "utf-8"
     );
     const indexHTML = mustache.render(template, { posts });
@@ -24,8 +24,8 @@ export function createPosts(outPath?: string) {
     });
 }
 
-function getAllPost() {
-    return getPostAll()
+export function getAllPost() {
+    return getAllPostFilePath()
         .map((filePath) => {
             const { title, contentMD, contentHTML, date, id } = fs.readJSONSync(filePath);
             return new Post(title, contentMD, contentHTML, date, id);
