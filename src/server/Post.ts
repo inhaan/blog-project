@@ -76,7 +76,7 @@ export class Post {
 
     saveHTML(outPath?: string): void {
         const template = fs.readFileSync(
-            path.join(__dirname, "../templates/viewPost.mustache"),
+            path.join(__dirname, "../templates/common/viewPost.mustache"),
             "utf-8"
         );
         const viewHTML = mustache.render(template, this);

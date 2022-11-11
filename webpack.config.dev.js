@@ -1,5 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const BuildServerPlugin = require("./webpack/plugins/BuildServerPlugin");
+const CreateIndexHtmlPlugin = require("./webpack/plugins/CreateIndexHtmlPlugin");
 
 module.exports = {
     mode: "development",
@@ -8,12 +10,10 @@ module.exports = {
         index: "./src/client/index/index.ts",
         writePost: "./src/client/writePost/writePost.ts",
         editPost: "./src/client/editPost/editPost.ts",
-        // viewPost: "./src/client/viewPost/viewPost.ts",
     },
     output: {
         filename: "[name].[contenthash].js",
         path: path.resolve(__dirname, "dist/wwwroot"),
-        // clean: true,
     },
     module: {
         rules: [
@@ -25,11 +25,8 @@ module.exports = {
         ],
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            filename: "index.html",
-            template: "./.build/templates/index.html",
-            chunks: ["index"],
-        }),
+        new BuildServerPlugin(),
+        new CreateIndexHtmlPlugin(true),
         new HtmlWebpackPlugin({
             filename: "writePost.html",
             template: "./src/client/writePost/writePost.html",
@@ -40,10 +37,5 @@ module.exports = {
             template: "./src/client/editPost/editPost.html",
             chunks: ["editPost"],
         }),
-        // new HtmlWebpackPlugin({
-        //     filename: "viewPost.html",
-        //     template: "./src/client/viewPost/viewPost.html",
-        //     chunks: ["viewPost"],
-        // }),
     ],
 };
