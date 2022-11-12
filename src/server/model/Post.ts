@@ -2,11 +2,11 @@ import path from "path";
 import fs from "fs-extra";
 import mustache from "mustache";
 import glob from "glob";
-import { slugify } from "./slugify";
-import { dateFormat } from "./dateFormat";
+import { slugify } from "../util/slugify";
+import { dateFormat } from "../util/dateFormat";
 
 export function getPost(menu: string, dateKey: string, id: string): Post | null {
-    const filePath = path.join(__dirname, "../posts", menu, dateKey, `${id}.json`);
+    const filePath = path.join(__dirname, "../../posts", menu, dateKey, `${id}.json`);
     const postData = fs.readJSONSync(filePath, { throws: false });
     if (!postData) {
         return null;
@@ -22,7 +22,8 @@ export function getPost(menu: string, dateKey: string, id: string): Post | null 
 
 export function getAllPostFilePath() {
     return glob.sync("posts/**/*.json", {
-        cwd: path.join(__dirname, ".."),
+        cwd: path.join(__dirname, "../../"),
+        absolute: true,
     });
 }
 
@@ -76,7 +77,7 @@ export class Post {
 
     saveHTML(outPath?: string): void {
         const template = fs.readFileSync(
-            path.join(__dirname, "../templates/common/viewPost.mustache"),
+            path.join(__dirname, "../../templates/common/viewPost.mustache"),
             "utf-8"
         );
         const viewHTML = mustache.render(template, this);
@@ -89,11 +90,11 @@ export class Post {
     }
 
     private getPostFilePath() {
-        return path.join(__dirname, "../posts", this.getFileDir(), this.getFileName(".json"));
+        return path.join(__dirname, "../../posts", this.getFileDir(), this.getFileName(".json"));
     }
 
     private getPostHTMLPath(outPath?: string) {
-        outPath = outPath ?? path.join(__dirname, "wwwroot");
+        outPath = outPath ?? path.join(__dirname, "../wwwroot");
         return path.join(outPath, this.getFileDir(), this.getFileName(".html"));
     }
 }

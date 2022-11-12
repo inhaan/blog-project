@@ -9,7 +9,7 @@
     "build:docs": "node scripts/build-docs.js",
     "build:dev": "node scripts/build-dev.js",
     "build": "npm run build:dev && npm run build:docs",
-    "start": "node dist/app.js"
+    "start": "opener http://localhost:3000 && node dist/app.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "@types/gulp": "^4.0.9",
     "@types/mustache": "^4.2.1",
     "html-webpack-plugin": "^5.5.0",
+    "opener": "^1.5.2",
     "ts-loader": "^9.4.1",
     "typescript": "^4.8.4",
     "webpack": "^5.74.0",

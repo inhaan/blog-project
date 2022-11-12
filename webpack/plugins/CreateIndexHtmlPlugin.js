@@ -9,7 +9,7 @@ module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
         const options = {
             filename: "index.html",
             templateContent: ({ htmlWebpackPlugin }) => {
-                const { getAllPost } = require("../../dist/pageResolver");
+                const { getAllPost } = require("../../dist/resolver/pageResolver");
                 const posts = getAllPost();
                 const template = fs.readFileSync(
                     path.join(__dirname, `../../templates/${dir}/index.mustache`),
@@ -22,7 +22,7 @@ module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
                     bodyTags: htmlWebpackPlugin.tags.bodyTags,
                 });
             },
-            chunks: [],
+            chunks: isDev ? ["index"] : [],
         };
         super(options);
     }

@@ -4,6 +4,8 @@
         previewStyle: "vertical",
     });
 
+    const loadingEl = document.getElementById("loading") as HTMLElement;
+
     document.getElementById("btnSave")?.addEventListener("click", async () => {
         const title = (document.querySelector("input[name='title']") as HTMLInputElement).value;
         const contentMD = editor.getMarkdown();
@@ -18,6 +20,7 @@
             return;
         }
 
+        loadingEl.classList.add("show");
         await fetch("/api/post", {
             method: "POST",
             headers: {

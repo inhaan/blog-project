@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
-import { createIndex } from "./pageResolver";
-import { getPost, Post } from "./Post";
+import { execSync } from "child_process";
+import { getPost, Post } from "./model/Post";
 
 const port = 3000;
 
@@ -19,7 +19,9 @@ app.post("/api/post", async (req, res) => {
     const post = new Post(title, contentMD, contentHTML);
     post.saveData();
     post.saveHTML();
-    await createIndex();
+
+    const result = execSync("npm run build:dev");
+    console.log(result.toString());
 
     res.sendStatus(200);
 });
@@ -40,7 +42,9 @@ app.put("/api/post", async (req, res) => {
     const post = new Post(title, contentMD, contentHTML, prePost.date);
     post.saveData();
     post.saveHTML();
-    await createIndex();
+
+    const result = execSync("npm run build:dev");
+    console.log(result.toString());
 
     res.sendStatus(200);
 });
@@ -59,7 +63,9 @@ app.delete("/api/post/:menu/:dateKey/:id", async (req, res) => {
     }
 
     post.delete();
-    await createIndex();
+
+    const result = execSync("npm run build:dev");
+    console.log(result.toString());
 
     res.sendStatus(200);
 });
