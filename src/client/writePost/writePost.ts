@@ -1,5 +1,6 @@
 {
     const titleEl = document.querySelector("input[name='title']") as HTMLInputElement;
+    const menuEl = document.querySelector("select[name='menu']") as HTMLSelectElement;
     const loadingEl = document.getElementById("loading") as HTMLElement;
 
     const editor = new toastui.Editor({
@@ -26,10 +27,15 @@
     });
 
     document.getElementById("btnSave")?.addEventListener("click", async () => {
+        const menu = menuEl.value;
         const title = titleEl.value;
         const contentMD = editor.getMarkdown();
         const contentHTML = editor.getHTML();
 
+        if (!menu) {
+            alert("카테고리를 선택해 주세요");
+            return;
+        }
         if (!title) {
             alert("제목을 입력해 주세요");
             return;
@@ -45,7 +51,7 @@
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, contentMD, contentHTML }),
+            body: JSON.stringify({ menu, title, contentMD, contentHTML }),
         });
 
         alert("저장했습니다");

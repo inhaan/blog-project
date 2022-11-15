@@ -4,6 +4,7 @@ import mustache from "mustache";
 import glob from "glob";
 import { slugify } from "../util/slugify";
 import { dateFormat } from "../util/date";
+import { getAppConfig } from "../util/config";
 
 const postsPath = path.join(__dirname, "../../posts");
 const templatePath = path.join(__dirname, "../../templates");
@@ -16,7 +17,14 @@ export function getPost(menu: string, dateKey: string, id: string): Post | null 
     if (!postData) {
         return null;
     }
-    return new Post(postData.title, postData.contentMD, postData.contentHTML, postData.date, postData.id);
+    return new Post(
+        postData.menu,
+        postData.title,
+        postData.contentMD,
+        postData.contentHTML,
+        postData.date,
+        postData.id
+    );
 }
 
 export function getAllPostFilePath() {
@@ -29,9 +37,10 @@ export function getAllPostFilePath() {
 export class Post {
     id: string;
     date: Date;
-    menu = "etc";
+    menuName: string;
 
     constructor(
+        public menu: string,
         public title: string,
         public contentMD: string,
         public contentHTML: string,
@@ -44,6 +53,9 @@ export class Post {
             date = new Date(date);
         }
         this.date = date;
+
+        const { menu: menuList } = getAppConfig();
+        this.menuName = menuList.find((x) => x.id === this.menu)?.name ?? "";
     }
 
     private getFileDir(): string {

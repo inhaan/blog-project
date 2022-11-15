@@ -1,4 +1,6 @@
 const path = require("path");
+const fs = require("fs-extra");
+const mustache = require("mustache");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -25,12 +27,23 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: "writePost.html",
-            template: "./src/client/writePost/writePost.html",
+            templateContent: () => {
+                const template = fs.readFileSync(
+                    path.join(__dirname, `templates/dev/writePost.mustache`),
+                    "utf-8"
+                );
+                const { menu } = fs.readJSONSync(path.join(__dirname, "app.config.json"));
+                return mustache.render(template, { menu });
+            },
             chunks: ["writePost"],
         }),
         new HtmlWebpackPlugin({
             filename: "editPost.html",
-            template: "./src/client/editPost/editPost.html",
+            templateContent: () => {
+                const template = fs.readFileSync(path.join(__dirname, `templates/dev/editPost.mustache`), "utf-8");
+                const { menu } = fs.readJSONSync(path.join(__dirname, "app.config.json"));
+                return mustache.render(template, { menu });
+            },
             chunks: ["editPost"],
         }),
     ],

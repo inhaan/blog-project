@@ -3,6 +3,7 @@
     "menu": [
         { "id": "cs", "name": "컴퓨터과학" },
         { "id": "front", "name": "프론트엔드" },
+        { "id": "back", "name": "백엔드" },
         { "id": "etc", "name": "기타" }
     ]
 }

@@ -11,8 +11,8 @@ export function createPosts(outPath?: string) {
 export function getAllPost() {
     return getAllPostFilePath()
         .map((filePath) => {
-            const { title, contentMD, contentHTML, date, id } = fs.readJSONSync(filePath);
-            return new Post(title, contentMD, contentHTML, date, id);
+            const { menu, title, contentMD, contentHTML, date, id } = fs.readJSONSync(filePath);
+            return new Post(menu, title, contentMD, contentHTML, date, id);
         })
         .sort((a, b) => {
             return b.date.getTime() - a.date.getTime();

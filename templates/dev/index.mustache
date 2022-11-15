@@ -77,17 +77,24 @@
                 }
             }
         </style>
-        {{{headTags}}}
     </head>
     <body>
         <h1><a href="./">inhan blog</a></h1>
+
+        <ul style="display: flex; gap: 10px; list-style-type: none;">
+            <li><a href="all/page/1">전체</a></li>
+            {{#menuList}}
+                <li><a href="{{id}}/page/1">{{name}}</a></li>
+            {{/menuList}}
+        </ul>
         
-        <ul id="container">
+        <ul id="container" style="list-style-type: none;">
             {{#posts}}
             <li style="display:flex; gap:10px; margin:5px 0;">
                 <div>
                     <a href="{{url}}">{{title}}</a>
                 </div>
+                <div>{{menuName}}</div>
                 <div>{{dateString}}</div>
                 <div data-postmenu="{{menu}}" data-postdatekey="{{dateKey}}" data-postid="{{id}}">
                     <button data-action="delete">Delete</button>
@@ -95,8 +102,12 @@
                 </div>
             </li>
             {{/posts}}
+            {{^posts}}
+                <li>글이 존재하지 않습니다</li>
+            {{/posts}}
         </ul>
         
+        {{#usePaging}}
          <ul id="pagination" style="display: flex; gap: 10px; list-style-type: none;">
             {{#pageNumbers}}
                 {{#active}}
@@ -107,6 +118,7 @@
                 {{/active}}
             {{/pageNumbers}}
         </ul>
+        {{/usePaging}}
 
         <div><a href="/writePost.html">Write post</a></div>
 
@@ -118,6 +130,5 @@
                 <div></div>
             </div>
         </div>
-        {{{bodyTags}}}
     </body>
 </html>

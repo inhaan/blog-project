@@ -13,13 +13,13 @@ app.use(express.json());
 
 // 글 저장
 app.post("/api/post", async (req, res) => {
-    let { title, contentMD, contentHTML } = req.body ?? {};
-    if (!title || !contentMD || !contentHTML) {
+    let { menu, title, contentMD, contentHTML } = req.body ?? {};
+    if (!menu || !title || !contentMD || !contentHTML) {
         res.sendStatus(400);
         return;
     }
 
-    const post = new Post(title, contentMD, contentHTML);
+    const post = new Post(menu, title, contentMD, contentHTML);
     post.saveImages();
     post.saveData();
     post.saveHTML();
@@ -32,8 +32,8 @@ app.post("/api/post", async (req, res) => {
 
 // 글 수정
 app.put("/api/post", async (req, res) => {
-    let { title, contentMD, contentHTML, menu, dateKey, id } = req.body ?? {};
-    if (!title || !contentMD || !contentHTML || !menu || !dateKey || !id) {
+    let { title, contentMD, contentHTML, menu, dateKey, id, newMenu } = req.body ?? {};
+    if (!title || !contentMD || !contentHTML || !menu || !dateKey || !id || !newMenu) {
         res.sendStatus(400);
         return;
     }
@@ -47,7 +47,7 @@ app.put("/api/post", async (req, res) => {
     prePost.delete();
 
     const restored = restoreImageUrlForEdit(contentMD, contentHTML, prePost.url);
-    const post = new Post(title, restored.contentMD, restored.contentHTML, prePost.date);
+    const post = new Post(newMenu, title, restored.contentMD, restored.contentHTML, prePost.date);
     post.saveImages();
     post.saveData();
     post.saveHTML();

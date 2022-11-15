@@ -5,7 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>inhan blog</title>
-        <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+        <link
+            rel="stylesheet"
+            href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+        />
         <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
         <style>
             #loading {
@@ -81,9 +84,20 @@
         </style>
     </head>
     <body>
-        <h1>포스트 작성</h1>
+        <h1>포스트 수정</h1>
+
+        <label for="menu">카테고리</label>
+        <select name="menu">
+            {{#menu}}
+                <option value="{{id}}">{{name}}</option>
+            {{/menu}}
+        </select>
+        
         <label for="title">제목</label>
-        <input type="text" name="title" />
+        <input id="title" type="text" name="title" />
+
+        <label for="date">일자</label>
+        <div id="date"></div>
 
         <label for="content">내용</label>
         <div id="editor"></div>

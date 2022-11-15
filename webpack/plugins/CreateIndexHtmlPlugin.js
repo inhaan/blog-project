@@ -4,7 +4,7 @@ const fs = require("fs-extra");
 const mustache = require("mustache");
 
 module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
-    constructor(posts, page, totalPage, isDev = false) {
+    constructor(posts, page, totalPage, menuList, isDev = false) {
         const dir = isDev ? "dev" : "prod";
         const pageNumbers = [];
         for (let i = 1; i <= totalPage; i++) {
@@ -13,7 +13,7 @@ module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
 
         const options = {
             filename: "index.html",
-            templateContent: ({ htmlWebpackPlugin }) => {
+            templateContent: () => {
                 const template = fs.readFileSync(
                     path.join(__dirname, `../../templates/${dir}/index.mustache`),
                     "utf-8"
@@ -22,8 +22,8 @@ module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
                 return mustache.render(template, {
                     posts,
                     pageNumbers,
-                    headTags: htmlWebpackPlugin.tags.headTags,
-                    bodyTags: htmlWebpackPlugin.tags.bodyTags,
+                    usePaging: pageNumbers.length > 1,
+                    menuList,
                 });
             },
             chunks: isDev ? ["index"] : [],

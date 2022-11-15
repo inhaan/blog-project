@@ -14,9 +14,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const titleEl = document.getElementById("title") as HTMLInputElement;
     const dateEl = document.getElementById("date") as HTMLElement;
+    const menuEl = document.querySelector("select[name='menu']") as HTMLSelectElement;
     const loadingEl = document.getElementById("loading") as HTMLElement;
     titleEl.value = title;
     dateEl.textContent = dateString;
+    menuEl.value = menu;
 
     const editor = new toastui.Editor({
         el: document.querySelector("#editor"),
@@ -44,9 +46,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("btnSave")?.addEventListener("click", async () => {
         const title = titleEl.value;
+        const newMenu = menuEl.value;
         const contentMD = editor.getMarkdown();
         const contentHTML = editor.getHTML();
 
+        if (!newMenu) {
+            alert("카테고리를 선택해 주세요");
+            return;
+        }
         if (!title) {
             alert("제목을 입력해 주세요");
             return;
@@ -62,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, contentMD, contentHTML, menu, dateKey, id }),
+            body: JSON.stringify({ title, contentMD, contentHTML, menu, dateKey, id, newMenu }),
         });
 
         alert("저장했습니다");

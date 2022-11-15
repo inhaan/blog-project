@@ -6,6 +6,8 @@ const { runWebpack } = require("./common");
 const CreateIndexHtmlPlugin = require("../webpack/plugins/CreateIndexHtmlPlugin");
 const CreatePageHtmlPlugin = require("../webpack/plugins/CreatePageHtmlPlugin");
 
+const { pagingSize, menu: menuList } = fs.readJSONSync(path.join(__dirname, "../app.config.json"));
+
 (async () => {
     console.log("build dev start...");
     console.log("build server...");
@@ -24,18 +26,33 @@ const CreatePageHtmlPlugin = require("../webpack/plugins/CreatePageHtmlPlugin");
 })();
 
 function getPlugins() {
-    const plugins = [];
+    let plugins = [];
     const { getAllPost } = require("../dist/resolver/pageResolver");
     const allPosts = getAllPost();
 
+    // all/page
+    plugins = plugins.concat(makeCreatePageHtmlPlugin("all", allPosts, pagingSize));
+
     // menu/page
-    const paginated = _.chunk(allPosts, 5);
-    paginated.forEach((posts, idx) => {
-        const page = idx + 1;
-        plugins.push(new CreatePageHtmlPlugin(posts, page, paginated.length, true));
+    menuList.forEach(({ id }) => {
+        const menuPosts = allPosts.filter((x) => x.menu === id);
+        plugins = plugins.concat(makeCreatePageHtmlPlugin(id, menuPosts, pagingSize));
     });
 
     // index
-    plugins.push(new CreateIndexHtmlPlugin(paginated[0], 1, paginated.length, true));
+    const allPaginated = _.chunk(allPosts, pagingSize);
+    plugins.push(new CreateIndexHtmlPlugin(allPaginated[0], 1, allPaginated.length, menuList, true));
     return plugins;
+}
+
+function makeCreatePageHtmlPlugin(menu, menuPosts, pagingSize) {
+    const paginated = _.chunk(menuPosts, pagingSize);
+    if (!paginated.length) {
+        return [new CreatePageHtmlPlugin(menu, [], 1, 1, menuList, true)];
+    }
+    return paginated.reduce((plugins, posts, idx) => {
+        const page = idx + 1;
+        plugins.push(new CreatePageHtmlPlugin(menu, posts, page, paginated.length, menuList, true));
+        return plugins;
+    }, []);
 }
