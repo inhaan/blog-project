@@ -1,7 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const BuildServerPlugin = require("./webpack/plugins/BuildServerPlugin");
-const CreateIndexHtmlPlugin = require("./webpack/plugins/CreateIndexHtmlPlugin");
 
 module.exports = {
     mode: "development",
@@ -25,8 +23,6 @@ module.exports = {
         ],
     },
     plugins: [
-        new BuildServerPlugin(),
-        new CreateIndexHtmlPlugin(true),
         new HtmlWebpackPlugin({
             filename: "writePost.html",
             template: "./src/client/writePost/writePost.html",

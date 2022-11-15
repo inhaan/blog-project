@@ -1,6 +1,4 @@
 const path = require("path");
-const BuildServerPlugin = require("./webpack/plugins/BuildServerPlugin");
-const CreateIndexHtmlPlugin = require("./webpack/plugins/CreateIndexHtmlPlugin");
 
 module.exports = {
     mode: "production",
@@ -18,8 +16,5 @@ module.exports = {
             },
         ],
     },
-    plugins: [
-        new BuildServerPlugin(), //
-        new CreateIndexHtmlPlugin(),
-    ],
+    plugins: [],
 };

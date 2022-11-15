@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs-extra");
 const mustache = require("mustache");
 
-module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
+module.exports = class CreatePageHtmlPlugin extends HtmlWebpackPlugin {
     constructor(posts, page, totalPage, isDev = false) {
         const dir = isDev ? "dev" : "prod";
         const pageNumbers = [];
@@ -12,10 +12,10 @@ module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
         }
 
         const options = {
-            filename: "index.html",
+            filename: `all/page/${page}/index.html`,
             templateContent: ({ htmlWebpackPlugin }) => {
                 const template = fs.readFileSync(
-                    path.join(__dirname, `../../templates/${dir}/index.mustache`),
+                    path.join(__dirname, `../../templates/${dir}/page.mustache`),
                     "utf-8"
                 );
 

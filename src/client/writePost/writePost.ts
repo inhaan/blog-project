@@ -49,6 +49,6 @@
         });
 
         alert("저장했습니다");
-        window.location.href = "/";
+        window.location.href = document.referrer;
     });
 }
