@@ -1,13 +1,32 @@
 {
+    const titleEl = document.querySelector("input[name='title']") as HTMLInputElement;
+    const loadingEl = document.getElementById("loading") as HTMLElement;
+
     const editor = new toastui.Editor({
         el: document.querySelector("#editor"),
         previewStyle: "vertical",
+        hooks: {
+            async addImageBlobHook(blob: Blob, callback: (url: string, text?: string) => void) {
+                if (blob.size >= 50 * 1024 * 1024) {
+                    alert("파일이 50MB를 초과하였습니다");
+                    return;
+                }
+
+                const form = new FormData();
+                form.append("image", blob);
+                const response = await fetch(`/api/tempImage`, {
+                    method: "POST",
+                    body: form,
+                });
+                const url = await response.text();
+
+                callback(url);
+            },
+        },
     });
 
-    const loadingEl = document.getElementById("loading") as HTMLElement;
-
     document.getElementById("btnSave")?.addEventListener("click", async () => {
-        const title = (document.querySelector("input[name='title']") as HTMLInputElement).value;
+        const title = titleEl.value;
         const contentMD = editor.getMarkdown();
         const contentHTML = editor.getHTML();
 

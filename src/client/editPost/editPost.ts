@@ -22,6 +22,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         el: document.querySelector("#editor"),
         previewStyle: "vertical",
         initialValue: contentMD,
+        hooks: {
+            async addImageBlobHook(blob: Blob, callback: (url: string, text?: string) => void) {
+                if (blob.size >= 50 * 1024 * 1024) {
+                    alert("파일이 50MB를 초과하였습니다");
+                    return;
+                }
+
+                const form = new FormData();
+                form.append("image", blob);
+                const response = await fetch(`/api/tempImage`, {
+                    method: "POST",
+                    body: form,
+                });
+                const url = await response.text();
+
+                callback(url);
+            },
+        },
     });
 
     document.getElementById("btnSave")?.addEventListener("click", async () => {
