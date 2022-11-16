@@ -6,6 +6,8 @@
     const editor = new toastui.Editor({
         el: document.querySelector("#editor"),
         previewStyle: "vertical",
+        height: "600px",
+        plugins: [toastui.Editor.plugin.codeSyntaxHighlight],
         hooks: {
             async addImageBlobHook(blob: Blob, callback: (url: string, text?: string) => void) {
                 if (blob.size >= 50 * 1024 * 1024) {

@@ -11,6 +11,13 @@ module.exports = class CreateIndexHtmlPlugin extends HtmlWebpackPlugin {
             pageNumbers.push({ num: i, active: i === page });
         }
 
+        menuList = menuList.map((x) => {
+            return {
+                ...x,
+                className: x.id === "all" ? "active" : "",
+            };
+        });
+
         const options = {
             filename: "index.html",
             templateContent: () => {

@@ -1,0 +1,148 @@
+.container {
+    width: 1000px;
+    margin: auto;
+    margin-top: 2rem;
+    padding: 0 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    margin-bottom: 4rem;
+}
+.header .logo {
+    font-weight: 100;
+    font-size: 23px;
+}
+.header .menu a:hover {
+   border-bottom: 3px solid #aee5db;
+}
+
+.contents {
+    display: flex;
+}
+
+.nav {
+    width: 170px;
+    /* border-right: 1px solid #ccc; */
+    margin-right: 3rem;
+    padding-top: 10px;
+    font-size: 15px;
+}
+
+.nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nav ul li a {
+    padding: 2px 5px;
+}
+.nav ul li a:hover {
+    border-bottom: 3px solid #aee5db;
+}
+.nav ul li.active a {
+    background-color: #aee5db;
+}
+
+.main {
+    flex: 1;
+    padding: 0 1rem;
+}
+
+.post-list li {
+    margin-bottom: 2rem;
+}
+
+.post-list li .title {
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.post-list li .title a:hover {
+    border-bottom: 3px solid #aee5db;
+}
+
+.post-list li .sub-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sub-info {
+    font-size: 14px;
+}
+.sub-info .menu {
+    color: #3db39e;
+}
+.sub-info .date {
+    color: #888;
+}
+
+.paging {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 4rem;
+}
+.paging li.active {
+    border-bottom: 3px solid #3db39e;
+}
+.paging li a {
+    color: #888;
+}
+
+.view {
+    width: 100%;
+}
+.view .title {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.view .sub-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+.view .sub-info .menu a {
+    color: #3db39e;
+}
+.view .sub-info .menu a:hover {
+    border-bottom: 3px solid #aee5db;
+}
+.view .view-content {
+    padding-bottom: 5rem;
+    font-size: 16px;
+}
+.view .view-content h1 {
+    font-size: 30px;
+}
+.view .view-content h2 {
+    font-size: 25px;
+}
+.view .view-content h3 {
+    font-size: 21px;
+}
+.view code {
+    font-size: 14px;
+} 
+
+.edit {
+    padding-bottom: 3rem;
+}
+.edit .toolbar {
+    text-align: right;
+}
+.edit .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+.edit .form .title {
+    width: 500px;
+}   

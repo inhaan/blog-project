@@ -22,6 +22,11 @@ const { pagingSize, menu: menuList } = fs.readJSONSync(path.join(__dirname, "../
 
     await runWebpack(path.join(__dirname, "../webpack.config.dev.js"), getPlugins());
 
+    console.log("copy css...");
+    fs.copySync(path.join(__dirname, "../src/client/css"), path.join(__dirname, "../dist/wwwroot"), {
+        overwrite: true,
+    });
+
     console.log("build dev success");
 })();
 
@@ -30,29 +35,33 @@ function getPlugins() {
     const { getAllPost } = require("../dist/resolver/pageResolver");
     const allPosts = getAllPost();
 
-    // all/page
-    plugins = plugins.concat(makeCreatePageHtmlPlugin("all", allPosts, pagingSize));
+    const menuListWithPost = [{ id: "all", name: "전체" }, ...menuList].map(({ id, name }) => {
+        if (id === "all") {
+            return { id, name, posts: allPosts, count: allPosts.length };
+        }
+        const posts = allPosts.filter((x) => x.menu === id);
+        return { id, name, posts, count: posts.length };
+    });
 
     // menu/page
-    menuList.forEach(({ id }) => {
-        const menuPosts = allPosts.filter((x) => x.menu === id);
-        plugins = plugins.concat(makeCreatePageHtmlPlugin(id, menuPosts, pagingSize));
+    menuListWithPost.forEach(({ id, posts }) => {
+        plugins = plugins.concat(makeCreatePageHtmlPlugin(id, posts, pagingSize, menuListWithPost));
     });
 
     // index
     const allPaginated = _.chunk(allPosts, pagingSize);
-    plugins.push(new CreateIndexHtmlPlugin(allPaginated[0], 1, allPaginated.length, menuList, true));
+    plugins.push(new CreateIndexHtmlPlugin(allPaginated[0], 1, allPaginated.length, menuListWithPost, true));
     return plugins;
 }
 
-function makeCreatePageHtmlPlugin(menu, menuPosts, pagingSize) {
+function makeCreatePageHtmlPlugin(menu, menuPosts, pagingSize, menuListWithPost) {
     const paginated = _.chunk(menuPosts, pagingSize);
     if (!paginated.length) {
-        return [new CreatePageHtmlPlugin(menu, [], 1, 1, menuList, true)];
+        return [new CreatePageHtmlPlugin(menu, [], 1, 1, menuListWithPost, true)];
     }
     return paginated.reduce((plugins, posts, idx) => {
         const page = idx + 1;
-        plugins.push(new CreatePageHtmlPlugin(menu, posts, page, paginated.length, menuList, true));
+        plugins.push(new CreatePageHtmlPlugin(menu, posts, page, paginated.length, menuListWithPost, true));
         return plugins;
     }, []);
 }

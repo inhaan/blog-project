@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const editor = new toastui.Editor({
         el: document.querySelector("#editor"),
         previewStyle: "vertical",
+        height: "600px",
+        plugins: [toastui.Editor.plugin.codeSyntaxHighlight],
         initialValue: contentMD,
         hooks: {
             async addImageBlobHook(blob: Blob, callback: (url: string, text?: string) => void) {

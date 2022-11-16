@@ -11,6 +11,13 @@ module.exports = class CreatePageHtmlPlugin extends HtmlWebpackPlugin {
             pageNumbers.push({ num: i, active: i === page });
         }
 
+        menuList = menuList.map((x) => {
+            return {
+                ...x,
+                className: x.id === menu ? "active" : "",
+            };
+        });
+
         const options = {
             filename: `${menu}/page/${page}/index.html`,
             templateContent: () => {

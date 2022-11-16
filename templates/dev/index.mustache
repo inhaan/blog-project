@@ -4,123 +4,63 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>inhan blog</title>
-        <style>
-            #loading {
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 9999;
-                width: 100vw;
-                height: 100vh;
-                background: rgba(0, 0, 0, 0.5);
-                visibility: hidden;
-            }
-            #loading.show {
-                visibility: visible;
-            }
-            .lds-ellipsis {
-                display: inline-block;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 80px;
-                height: 80px;
-            }
-            .lds-ellipsis div {
-                position: absolute;
-                top: 33px;
-                width: 13px;
-                height: 13px;
-                border-radius: 50%;
-                background: #fff;
-                animation-timing-function: cubic-bezier(0, 1, 1, 0);
-            }
-            .lds-ellipsis div:nth-child(1) {
-                left: 8px;
-                animation: lds-ellipsis1 0.6s infinite;
-            }
-            .lds-ellipsis div:nth-child(2) {
-                left: 8px;
-                animation: lds-ellipsis2 0.6s infinite;
-            }
-            .lds-ellipsis div:nth-child(3) {
-                left: 32px;
-                animation: lds-ellipsis2 0.6s infinite;
-            }
-            .lds-ellipsis div:nth-child(4) {
-                left: 56px;
-                animation: lds-ellipsis3 0.6s infinite;
-            }
-            @keyframes lds-ellipsis1 {
-                0% {
-                    transform: scale(0);
-                }
-                100% {
-                    transform: scale(1);
-                }
-            }
-            @keyframes lds-ellipsis3 {
-                0% {
-                    transform: scale(1);
-                }
-                100% {
-                    transform: scale(0);
-                }
-            }
-            @keyframes lds-ellipsis2 {
-                0% {
-                    transform: translate(0, 0);
-                }
-                100% {
-                    transform: translate(24px, 0);
-                }
-            }
-        </style>
+        <title>inhan's blog</title>
+        <link rel="stylesheet" href="normalize.css" />
+        <link rel="stylesheet" href="default.css" />
+        <link rel="stylesheet" href="loader.css" />
+        <link rel="stylesheet" href="main.css" />
     </head>
     <body>
-        <h1><a href="./">inhan blog</a></h1>
+    <div class="container">
+        <div class="header">
+            <div class="logo"><a href="./">inhan's blog</a></div>
+            <div class="menu"><a href="./">Home</a> / <a href="about">About</a></div>
+        </div>
 
-        <ul style="display: flex; gap: 10px; list-style-type: none;">
-            <li><a href="all/page/1">전체</a></li>
-            {{#menuList}}
-                <li><a href="{{id}}/page/1">{{name}}</a></li>
-            {{/menuList}}
-        </ul>
-        
-        <ul id="container" style="list-style-type: none;">
-            {{#posts}}
-            <li style="display:flex; gap:10px; margin:5px 0;">
-                <div>
-                    <a href="{{url}}">{{title}}</a>
-                </div>
-                <div>{{menuName}}</div>
-                <div>{{dateString}}</div>
-                <div data-postmenu="{{menu}}" data-postdatekey="{{dateKey}}" data-postid="{{id}}">
-                    <button data-action="delete">Delete</button>
-                    <button data-action="edit">Edit</button>
-                </div>
-            </li>
-            {{/posts}}
-            {{^posts}}
-                <li>글이 존재하지 않습니다</li>
-            {{/posts}}
-        </ul>
-        
-        {{#usePaging}}
-         <ul id="pagination" style="display: flex; gap: 10px; list-style-type: none;">
-            {{#pageNumbers}}
-                {{#active}}
-                    <li>{{num}}</li>
-                {{/active}}
-                {{^active}}
-                    <li><a href="all/page/{{num}}">{{num}}</a></li>
-                {{/active}}
-            {{/pageNumbers}}
-        </ul>
-        {{/usePaging}}
+        <div class="contents">
+            <div class="nav">
+                <ul>
+                    {{! <li class="active"><a href="all/page/1">전체</a></li> }}
+                    {{#menuList}}
+                        <li class="{{className}}"><a href="{{id}}/page/1">{{name}} ({{count}})</a></li>
+                    {{/menuList}}
+                </ul>
+                <div style="margin-top:3rem;"><a href="/writePost.html" style="font-weight:600;">✏️ Write post</a></div>
+            </div>
+            <div class="main">
+                <ul id="container" class="post-list">
+                    {{#posts}}
+                        <li>
+                            <div class="title"><a href="{{url}}">{{title}}</a></div>
+                            <div class="sub-info">
+                                <div class="menu">{{menuName}}</div>
+                                <div class="date">{{dateString}}</div>
+                                <div data-postmenu="{{menu}}" data-postdatekey="{{dateKey}}" data-postid="{{id}}">
+                                    <button data-action="delete">Delete</button>
+                                    <button data-action="edit">Edit</button>
+                                </div>
+                            </div>
+                        </li>
+                    {{/posts}}
+                    {{^posts}}
+                        <li>글이 존재하지 않습니다</li>
+                    {{/posts}}
+                </ul>
 
-        <div><a href="/writePost.html">Write post</a></div>
+                {{#usePaging}}
+                    <ul id="pagination" class="paging">
+                        {{#pageNumbers}}
+                            {{#active}}
+                                <li class="active">{{num}}</li>
+                            {{/active}}
+                            {{^active}}
+                                <li><a href="all/page/{{num}}">{{num}}</a></li>
+                            {{/active}}
+                        {{/pageNumbers}}
+                    </ul>
+                {{/usePaging}}
+            </div>
+        </div>
 
         <div id="loading">
             <div class="lds-ellipsis">

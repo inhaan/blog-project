@@ -4,44 +4,55 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>inhan blog</title>
+        <title>inhan's blog</title>
+        <link rel="stylesheet" href="normalize.css" />
+        <link rel="stylesheet" href="default.css" />
+        <link rel="stylesheet" href="main.css" />
     </head>
     <body>
-        <h1><a href="./">inhan blog</a></h1>
+    <div class="container">
+        <div class="header">
+            <div class="logo"><a href="./">inhan's blog</a></div>
+            <div class="menu"><a href="./">Home</a> / <a href="about">About</a></div>
+        </div>
 
-        <ul style="display: flex; gap: 10px; list-style-type: none;">
-            <li><a href="all/page/1">전체</a></li>
-            {{#menuList}}
-                <li><a href="{{id}}/page/1">{{name}}</a></li>
-            {{/menuList}}
-        </ul>
+        <div class="contents">
+            <div class="nav">
+                <ul>
+                    {{#menuList}}
+                        <li class="{{className}}"><a href="{{id}}/page/1">{{name}} ({{count}})</a></li>
+                    {{/menuList}}
+                </ul>
+            </div>
+            <div class="main">
+                <ul id="container" class="post-list">
+                    {{#posts}}
+                        <li>
+                            <div class="title"><a href="{{url}}">{{title}}</a></div>
+                            <div class="sub-info">
+                                <div class="menu">{{menuName}}</div>
+                                <div class="date">{{dateString}}</div>
+                            </div>
+                        </li>
+                    {{/posts}}
+                    {{^posts}}
+                        <li>글이 존재하지 않습니다</li>
+                    {{/posts}}
+                </ul>
 
-        <ul id="container" style="list-style-type: none;">
-            {{#posts}}
-            <li style="display:flex; gap:10px; margin:5px 0;">
-                <div>
-                    <a href="{{url}}">{{title}}</a>
-                </div>
-                <div>{{menuName}}</div>
-                <div>{{dateString}}</div>
-            </li>
-            {{/posts}}
-            {{^posts}}
-                <li>글이 존재하지 않습니다</li>
-            {{/posts}}
-        </ul>
-
-        {{#usePaging}}
-        <ul id="pagination" style="display: flex; gap: 10px; list-style-type: none;">
-            {{#pageNumbers}}
-                {{#active}}
-                    <li>{{num}}</li>
-                {{/active}}
-                {{^active}}
-                    <li><a href="all/page/{{num}}">{{num}}</a></li>
-                {{/active}}
-            {{/pageNumbers}}
-        </ul>
-        {{/usePaging}}
+                {{#usePaging}}
+                    <ul id="pagination" class="paging">
+                        {{#pageNumbers}}
+                            {{#active}}
+                                <li class="active">{{num}}</li>
+                            {{/active}}
+                            {{^active}}
+                                <li><a href="all/page/{{num}}">{{num}}</a></li>
+                            {{/active}}
+                        {{/pageNumbers}}
+                    </ul>
+                {{/usePaging}}
+            </div>
+        </div>
     </body>
 </html>

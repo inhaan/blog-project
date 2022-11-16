@@ -46,5 +46,10 @@ module.exports = {
             },
             chunks: ["editPost"],
         }),
+        new HtmlWebpackPlugin({
+            filename: "about/index.html",
+            template: "src/client/about/about.html",
+            chunks: [],
+        }),
     ],
 };
