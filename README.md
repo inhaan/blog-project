@@ -1,10 +1,11 @@
 # Github Pages 정적 블로그 생성기
 
 바닐라 자바스크립트와 타입스크립트로 개발한 Github Pages 정적 블로그 생성기 입니다
+<br/>
+블로그 [https://inhaan.github.io/blog-project/](https://inhaan.github.io/blog-project/)
 
 ![](readme/blog_example.png)
 
-<br/>
 <br/>
 
 ## Usage
