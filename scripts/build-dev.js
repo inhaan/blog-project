@@ -22,8 +22,8 @@ const { pagingSize, menu: menuList } = fs.readJSONSync(path.join(__dirname, "../
 
     await runWebpack(path.join(__dirname, "../webpack.config.dev.js"), getPlugins());
 
-    console.log("copy css...");
-    fs.copySync(path.join(__dirname, "../src/client/css"), path.join(__dirname, "../dist/wwwroot"), {
+    console.log("copy static...");
+    fs.copySync(path.join(__dirname, "../src/static"), path.join(__dirname, "../dist/wwwroot"), {
         overwrite: true,
     });
 
